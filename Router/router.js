@@ -1,4 +1,3 @@
-
 const FERIADOSDATA = require("../Data/DB_Dates")
 const express = require("express")
 const server = express()
@@ -25,5 +24,20 @@ module.exports = [
             res.json(FERIADOSDATA)
         }
 
+    }),
+    server.get( "/domes/nacional", (req, res) =>{
+        const {mesNc} = req.query;
+        if (mesNc != undefined) {
+
+        let JsonResul = [] 
+        for (let i = 0; i < FERIADOSDATA.length; i++) {
+            if (FERIADOSDATA[i].mes ==  mesNc &&  FERIADOSDATA[i].tipo == "nacional") {
+                JsonResul.push(FERIADOSDATA[i])
+            }
+        }
+        res.json(JsonResul)            
+        } else {
+            res.json(FERIADOSDATA)
+        }
     })
 ]
