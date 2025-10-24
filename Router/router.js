@@ -4,8 +4,9 @@ const server = express()
 module.exports = [
     server.get("/", (req, res) => {
         res.json(
-            [{ "version": 1.0 },
-                { "endpoint": "/domes" }
+            [   { "version": 1.0 },
+                { "quais feriados tem no mes do mes": "/domes?mes=[number]" },
+                { "quais feriados nacional tem no mes do mes": "/domes/nacional?mes=[number]" }
 ]
         )
     }),
