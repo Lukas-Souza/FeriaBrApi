@@ -1,4 +1,4 @@
-const { version } = require("react")
+
 const FERIADOSDATA = require("../Data/DB_Dates")
 const express = require("express")
 const server = express()
