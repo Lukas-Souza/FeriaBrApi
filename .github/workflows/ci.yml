@@ -1,46 +1,22 @@
-name: CI/CD - FeriaBrApi
+name: Continuous integration
 
-on:
-  push:
-    branches:
-      - main   # roda quando fizer push na branch main
+on: 
   pull_request:
-    branches:
-      - main
 
 jobs:
-  build_and_test:
+  continuos-integration:
     runs-on: ubuntu-latest
 
     steps:
-      
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v
+      - name: Using Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20  
+          node-version: "22.x"
 
-      
-      - name: Install dependencies
-        run: npm install
-
-      
-      - name: Run tests
-        run: npm test
-
-  deploy:
-    needs: build_and_test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Deploy (exemplo)
+      - name: Run Install, Build and Tests
         run: |
-          echo "Deploy automatizado iniciado..."
-
+          npm install
+          npm run build
+          npm test
