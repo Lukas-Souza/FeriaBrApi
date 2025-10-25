@@ -6,7 +6,8 @@ module.exports = [
         res.json(
             [   { "version": 1.0 },
                 { "quais feriados tem no mes do mes": "/domes?mes=[number]" },
-                { "quais feriados nacional tem no mes do mes": "/domes/nacional?mes=[number]" }
+                { "quais feriados nacional tem no mes do mes": "/domes/nacional?mes=[number]" },
+                {"name":"FeriaAPI"}
 ]
         )
     }),
