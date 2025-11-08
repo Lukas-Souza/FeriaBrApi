@@ -6,11 +6,11 @@ module.exports = {
   production: {
     client: 'mysql2',
     connection: {
-      host: '127.0.0.1',
-      port: 3306,
-      database: 'DBase-FeriApi',
+      host: 'shortline.proxy.rlwy.net',
+      port: 40076,
+      database: 'railway',
       user:  'root',
-      password: '422792'
+      password: 'FJZNYQOsnLYSReUHWXzxZNvJUOwUxGuf'
     }
   }
 
