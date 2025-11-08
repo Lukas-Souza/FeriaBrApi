@@ -21,20 +21,33 @@ server.get('/feriados', async (req, res) => {
     res.status(500).json({ erro: err.message });
   }
 }),
+server.get('/feriados/:Date', async(req, res)=>{
 
+    const {Date }= req.params
+   if (Date != null || Date != undefined) {
+    
+    try{
+        const feriados = await knex('feriados').whereRaw("MONTH(`data`) = "+Date)
+        res.status(200).json(feriados)
+    }catch(err){
+    res.status(400).json('Ocorreu algum erro na requesição')
+    }
+   }
+
+}),
 /*
   POST /add-feriado/:nome/:data/:tipo/:estado
   Exemplo:
   http://localhost:3000/add-feriado/Natal/2025-12-25/Nacional/Todos
 */
-server.post('/add-feriado/:nome/:data/:tipo/:estado', async (req, res) => {
-  const { nome, data, tipo, estado } = req.params;
+server.post('/add-feriado/:nome_feriado/:data/:tipo/:estado', async (req, res) => {
+  const { nome_feriado, data, tipo, estado } = req.params;
 
   try {
-    await knex('feriados').insert({ nome, data, tipo, estado });
+    await knex('feriados').insert({ nome_feriado:nome_feriado, data, tipo, estado });
     res.json({ mensagem: '✅ Feriado adicionado com sucesso!' });
   } catch (err) {
-    res.status(500).json({ erro: err.message });
+    res.status(500).json({ erro: 'OCorreu algum erro ao tentar realizar a operação' });
   }
 }),
 
@@ -43,13 +56,13 @@ server.post('/add-feriado/:nome/:data/:tipo/:estado', async (req, res) => {
   Exemplo:
   http://localhost:3000/atualizar/1/Carnaval/2025-02-28/Estadual/RJ
 */
-server.put('/atualizar/:id/:nome/:data/:tipo/:estado', async (req, res) => {
-  const { id, nome, data, tipo, estado } = req.params;
+server.put('/atualizar/:id/:nome_feriado/:data/:tipo/:estado', async (req, res) => {
+  const { id, nome_feriado, data, tipo, estado } = req.params;
 
   try {
     await knex('feriados')
       .where({ id })
-      .update({ nome, data, tipo, estado });
+      .update({ nome_feriado, data, tipo, estado });
     res.json({ mensagem: '♻️ Feriado atualizado com sucesso!' });
   } catch (err) {
     res.status(500).json({ erro: err.message });
