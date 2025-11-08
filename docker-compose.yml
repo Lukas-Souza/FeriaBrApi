@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: Dbase-FeriApi
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 422792
+      MYSQL_DATABASE: DBase-FeriApi
+      MYSQL_USER: lucas
+      MYSQL_PASSWORD: 422792
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql

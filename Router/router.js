@@ -1,4 +1,5 @@
-const FERIADOSDATA = require("../Data/DB_Dates")
+const knexConfig = require('../Data/knexfile').production;
+const knex = require('knex')(knexConfig);
 const express = require("express")
 const server = express()
 module.exports = [
@@ -11,35 +12,48 @@ module.exports = [
 ]
         )
     }),
-    server.get("/domes",  (req, res) => {
-        const { mes } = req.query
-        if (mes != undefined) {
 
-        let JsonResul = [] 
-        for (let i = 0; i < FERIADOSDATA.length; i++) {
-            if (FERIADOSDATA[i].mes == mes) {
-                JsonResul.push(FERIADOSDATA[i])
-            }
-        }
-        res.json(JsonResul)            
-        } else {
-            res.json(FERIADOSDATA)
-        }
+server.get('/feriados', async (req, res) => {
+  try {
+    const feriados = await knex('feriados').select('*');
+    res.json(feriados);
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
+}),
 
-    }),
-    server.get( "/domes/nacional", (req, res) =>{
-        const {mesNc} = req.query;
-        if (mesNc != undefined) {
+/*
+  POST /add-feriado/:nome/:data/:tipo/:estado
+  Exemplo:
+  http://localhost:3000/add-feriado/Natal/2025-12-25/Nacional/Todos
+*/
+server.post('/add-feriado/:nome/:data/:tipo/:estado', async (req, res) => {
+  const { nome, data, tipo, estado } = req.params;
 
-        let JsonResul = [] 
-        for (let i = 0; i < FERIADOSDATA.length; i++) {
-            if (FERIADOSDATA[i].mes ==  mesNc &&  FERIADOSDATA[i].tipo == "nacional") {
-                JsonResul.push(FERIADOSDATA[i])
-            }
-        }
-        res.json(JsonResul)            
-        } else {
-            res.json(FERIADOSDATA)
-        }
-    })
+  try {
+    await knex('feriados').insert({ nome, data, tipo, estado });
+    res.json({ mensagem: '✅ Feriado adicionado com sucesso!' });
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
+}),
+
+/*
+  PUT /atualizar/:id/:nome/:data/:tipo/:estado
+  Exemplo:
+  http://localhost:3000/atualizar/1/Carnaval/2025-02-28/Estadual/RJ
+*/
+server.put('/atualizar/:id/:nome/:data/:tipo/:estado', async (req, res) => {
+  const { id, nome, data, tipo, estado } = req.params;
+
+  try {
+    await knex('feriados')
+      .where({ id })
+      .update({ nome, data, tipo, estado });
+    res.json({ mensagem: '♻️ Feriado atualizado com sucesso!' });
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
+})
+
 ]
