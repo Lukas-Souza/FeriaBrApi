@@ -9,9 +9,8 @@ module.exports = {
       host: 'shortline.proxy.rlwy.net',
       port: 40076,
       database: 'railway',
-      user:  'root',
-      password: 'FJZNYQOsnLYSReUHWXzxZNvJUOwUxGuf'
-    }
-  }
-
+      user: 'root',
+      password: 'FJZNYQOsnLYSReUHWXzxZNvJUOwUxGuf',
+    },
+  },
 };
